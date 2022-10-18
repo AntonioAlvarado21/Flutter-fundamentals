@@ -55,6 +55,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                     },
                   ),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: "Phone number"),
+                    keyboardType: TextInputType.phone,
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         _showSecondPage(context);
