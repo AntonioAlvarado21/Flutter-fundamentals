@@ -9,8 +9,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late TextEditingController nameTextController;
-  late TextEditingController lastNameTextController;
+  //Con variables
+  late String nameValue;
+  late String lastNameValue;
+
+  //Con controladores
+  final nameController = TextEditingController();
+  final lastNameController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,55 +26,53 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Uso básico del navegador"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              decoration: const InputDecoration(labelText: "Nombre: "),
-              controller: nameTextController,
-            ),
-            const SizedBox(height: 20,),
-            TextField(
-              decoration: const InputDecoration(labelText: "Apellido: "),
-              controller: lastNameTextController,
-            ),
-            const SizedBox(height: 80,),
-            ElevatedButton(
-              child: const Text("Mostrar segunda pantalla"),
-              onPressed: () {
-                _showSecondPage(context);
-              },
-            )
-          ],
-        ),
-      ),
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+              key: formKey,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    //controller: nameController,
+                    decoration: const InputDecoration(labelText: "Nombre"),
+                    onSaved: (value) {
+                      nameValue = value!;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Llene el campo";
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    //controller: lastNameController,
+                    decoration: const InputDecoration(labelText: "Apellido"),
+                    onSaved: (value) {
+                      lastNameValue = value!;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Llene el campoo";
+                      }
+                    },
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        _showSecondPage(context);
+                      },
+                      child: const Text("Mostrar segunda pantalla"))
+                ],
+              ))),
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    nameTextController = TextEditingController();
-    lastNameTextController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    nameTextController.dispose();
-    lastNameTextController.dispose();
-  }
-
   void _showSecondPage(BuildContext context) {
-    // final route = MaterialPageRoute(builder: (BuildContext context) {
-    //   return const SecondPage(name: "Jorge");
-    // });
-    // Navigator.of(context).push(route);
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+    }
 
     //Pasar nombre de ruta
     Navigator.of(context).pushNamed("/second",
-        arguments: SecondPageArguments(
-            name: nameTextController.text,
-            lastName: lastNameTextController.text));
+        arguments:
+            SecondPageArguments(name: nameValue, lastName: lastNameValue));
   }
 }
