@@ -1,51 +1,31 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
-
-  final _scaffKey = GlobalKey<ScaffoldState>();
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffKey,
-      appBar: AppBar(title: const Text("Mostrar un snackbar")),
-      body: Center(
-        child: TextButton(
-            child: const Text("Mostrar"),
-            onPressed: () {
-              _showDialog(context);
-            }),
-      ),
-    );
-  }
-
-  void _showDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("¿Confirmar acción?"),
-          content: const Text("Eliminar elemento"),
-          actions: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
+        appBar: AppBar(title: const Text("Animacion Hero")),
+        body: ListView.builder(
+            itemCount: 50,
+            itemBuilder: (context, index) {
+              final url = "https://picsum.photos/id/$index/400/300";
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed("/second", arguments: url);
                 },
-                child: const Text("Si")),
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("No")),
-          ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        );
-      },
-      //barrierDismissible: false
-    );
+                child: Hero(
+                  tag: url,
+                  child: Card(
+                    child: FadeInImage(
+                      image: NetworkImage(url),
+                      placeholder: const AssetImage("assets/loading.gif"),
+                      height: 300,
+                    ),
+                  ),
+                ),
+              );
+            }));
   }
 }

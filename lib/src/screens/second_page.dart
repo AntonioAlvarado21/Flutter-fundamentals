@@ -3,24 +3,23 @@ import 'package:flutter/material.dart';
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
 
-  //final String name;
-
   @override
   Widget build(BuildContext context) {
-    final persona =
-        ModalRoute.of(context)!.settings.arguments as SecondPageArguments;
+    final String url = ModalRoute.of(context)!.settings.arguments == null
+        ? "NULL"
+        : ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Segunda pantalla")),
-      body: Center(
-        child: Text('${persona.name} ${persona.lastName}'),
-      ),
-    );
+        appBar: AppBar(title: const Text("Mostrar Imagen")),
+        body: Center(
+          child: Hero(
+              tag: url,
+              child: Image.network(
+                url,
+                height: 700,
+                width: 400,
+                fit: BoxFit.fill,
+              )),
+        ));
   }
-}
-
-class SecondPageArguments {
-  String name;
-  String lastName;
-  SecondPageArguments({required this.name, required this.lastName});
 }
