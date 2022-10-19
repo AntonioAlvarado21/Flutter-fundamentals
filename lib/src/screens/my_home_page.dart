@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_practices/src/screens/second_page.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -9,60 +10,50 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffKey,
-      appBar: AppBar(title: const Text("Uso del drawer")),
-      body: const Center(child: Text("Hola")),
-      drawer: _getDrawer(context),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.menu),
-        onPressed: () => _scaffKey.currentState?.openDrawer(),
-      ),
-    );
+        key: _scaffKey,
+        appBar: AppBar(title: const Text("Mostrar un snackbar")),
+        body: const ShowSnackBar());
   }
+}
 
-  Widget _getDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-          /*DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.purpleAccent,
-            ),
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const <Widget>[
-                  FlutterLogo(
-                    size: 30,
+class ShowSnackBar extends StatelessWidget {
+  const ShowSnackBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: TextButton(
+            onPressed: () {
+              final snackbar = SnackBar(
+                  action: SnackBarAction(
+                    label: "Cancelar",
+                    textColor: Colors.blue.shade50,
+                    onPressed: () {
+                      print("Se cancelo la acción");
+                    },
                   ),
-                  Text(
-                    "Uso del Drawer",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ]),
-          ),*/
-          UserAccountsDrawerHeader(
-            accountName: const Text("Jorge"),
-            accountEmail: const Text("jorge@hotmail.com"),
-            currentAccountPicture: const FlutterLogo(),
-            onDetailsPressed: () {
-              print("Show details");
+                  backgroundColor: Colors.redAccent,
+                  duration: const Duration(seconds: 3),
+                  content: Row(
+                    children: const [
+                      Icon(
+                        Icons.thumb_up,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text(
+                        "Deleted action sucessful",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18),
+                      )
+                    ],
+                  ));
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
             },
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.blue, Colors.blueAccent , Colors.deepPurple])),
-          ),
-          ListTile(
-            title: const Text("Inicio"),
-            leading: const Icon(Icons.home),
-            onTap: () => showHome(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  showHome(BuildContext context) {
-    Navigator.pop(context);
+            child: const Text("Mostrar Snackbar")));
   }
 }
