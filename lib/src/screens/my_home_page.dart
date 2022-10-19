@@ -24,26 +24,28 @@ class MyHomePage extends StatelessWidget {
 
   void _showDialog(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(title: const Text("Seleccione"), children: <Widget>[
-            ListTile(
-                title: const Text("Eliminar"),
-                leading: const Icon(Icons.delete),
-                onTap: () {
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("¿Confirmar acción?"),
+          content: const Text("Eliminar elemento"),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
                   Navigator.pop(context);
-                }),
-            ListTile(
-              title: const Text("Editar"),
-              leading: const Icon(Icons.edit),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10) ),
-            )
-          ]);
-        },
-        //barrierDismissible: false 
-      );
+                },
+                child: const Text("Si")),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+          ],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        );
+      },
+      //barrierDismissible: false
+    );
   }
 }
