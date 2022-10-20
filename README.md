@@ -1,6 +1,6 @@
 # flutter_practices
 
-A new Flutter project.
+Some examples about how to use Widgets on Flutter. Each example are in specific commit.
 
 ## Getting Started
 
